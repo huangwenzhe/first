@@ -1,0 +1,59 @@
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
+public class WordDictionary {
+    /**
+     * 根据字符串长度分开存放
+     */
+    Map<Integer,Set<String>> map = new HashMap<>();
+    public WordDictionary(){
+
+    }
+    public void addWord(String word){
+        int len = word.length();
+        if(map.get(len)!=null){
+            map.get(len).add(word);
+        }else{
+            Set<String>set = new HashSet<>();
+            set.add(word);
+            map.put(len,set);
+        }
+    }
+    public boolean search(String word){
+        Set<String> set = map.get(word.length());
+        //不存在的字符串长度  返回false
+        if(set == null){
+            return false;
+        }
+        if(set.contains(word)){
+            return true;
+        }
+        char[]chars = word.toCharArray();
+        //遍历set
+        P:for(String s :set){
+            if(word.length()!=s.length()){
+                continue;
+            }
+            //长度相等进行如下比较
+            char[]cs = s.toCharArray();
+            for(int i = 0;i<cs.length;i++){  //逐个字符进行比较
+                if(chars[i]!='.'&&chars[i]!=cs[i]){
+                    continue P;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static void main(String[] args) {
+        WordDictionary w = new WordDictionary();
+        w.addWord("ble");
+        w.addWord("wpd");
+        w.addWord(".ewq");
+        System.out.println(w.search("ble"));
+        System.out.println(w.search("ww"));
+    }
+}
