@@ -1,0 +1,31 @@
+import java.util.*;
+//给定一个带访问次数和域名的组合，要求分别计算每个域名被访问的次数。其格式为访问次数+空格+地址，
+public class MyString {
+    public static List<String> subdomainBistin(String []array){
+        Map<String,Integer> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
+        for(String i :array){
+            String[]a = i.split(" ");
+            int n = Integer.valueOf(a[0]);
+            String domain = a[1];
+            String[]b = domain.split("\\.");
+            for(int j = 0 ;j<b.length;j++){
+                String []c = Arrays.copyOfRange(b,j,b.length);
+                String sbudomain = String.join(".",c);
+                int old = map.getOrDefault(sbudomain,0);
+                map.put(sbudomain,old+n);
+            }
+        }
+        for(Map.Entry<String,Integer> e :map.entrySet()){
+            String key = e.getKey();
+            int n = e.getValue();
+           String s=  String.format("%d,%s",n,key);
+            list.add(s);
+        }
+        return list;
+    }
+    public static void main(String[] args) {
+        String[]a = {"900 google.mail.com", "50 yahoo.com", "1 intel.mail.com", "5 wiki.org"};
+        System.out.println(MyString.subdomainBistin(a));
+    }
+}
