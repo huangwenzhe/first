@@ -1,0 +1,61 @@
+import java.util.*;
+
+public class LeeCode {
+
+    /**
+     * 用一个数组加上一个整数，得到的和返回一个数组形式
+     * 使用数组从后向前开始遍历 每一项加上K，其中list存放的是相加后所得到的数的个位的值
+     * @param A
+     * @param k
+     * @return
+     */
+    public static List<Integer> addToArrayForm(int []A,int k) {
+       List<Integer> list =  new ArrayList<>();
+      int i =A.length;
+      int cur = k;
+
+      while(--i>=0||cur>0){
+          if(i>=0){
+              cur+=A[i];
+          }
+          list.add(cur%10);
+          cur = cur/10;
+      }
+      Collections.reverse(list);
+        return list;
+    }
+
+
+    /**
+     * 两个字符串相加
+     * 使用双指针分别从两个字符串后面向前遍历，carry表示进位，tem表示相加所得的值
+     */
+    public static String addStrings(String num1, String num2) {
+
+        StringBuilder res = new StringBuilder("");
+        int i = num1.length() - 1, j = num2.length() - 1, carry = 0;
+        while(i >= 0 || j >= 0){
+            int n1 = i >= 0 ? num1.charAt(i) - '0' : 0;
+            int n2 = j >= 0 ? num2.charAt(j) - '0' : 0;
+            int tmp = n1 + n2 + carry;
+            carry = tmp / 10;
+            res.append(tmp % 10);
+            i--; j--;
+        }
+        if(carry == 1) res.append(1);
+        return res.reverse().toString();
+    }
+
+    public static void main(String[] args) {
+//        String num1 = "1";
+//        String num2 =  "1";
+//        System.out.println(LeeCode.addStrings(num1,num2));
+//
+//        int []A = {1,2,2,0};
+//        System.out.println(LeeCode.addToArrayForm(A,34));
+
+        int []arr1 = {1,0,1,0};
+        int []arr2={1,1,0};
+        System.out.print(Arrays.toString(LeeCode.addNegabinary(arr1,arr2)));
+    }
+}
