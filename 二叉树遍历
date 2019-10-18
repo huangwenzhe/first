@@ -1,0 +1,93 @@
+
+
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
+
+public class MyNode {
+    /**
+     * 非递归二叉树的前中后序遍历
+     */
+    char val;
+    MyNode left;
+    MyNode right;
+    public MyNode(char val){
+        this.val = val;
+    }
+    public static MyNode buildTree() {
+        MyNode a = new MyNode('A');
+        MyNode b = new MyNode('B');
+        MyNode c = new MyNode('C');
+        MyNode d = new MyNode('D');
+        MyNode e = new MyNode('E');
+        MyNode f = new MyNode('F');
+        MyNode g = new MyNode('G');
+        MyNode h = new MyNode('H');
+
+        a.left = b; a.right = c;
+        b.left = d; b.right = e;
+        c.left = f; c.right = g;
+        e.right = h;
+
+        return a;
+    }
+    private MyNode root = null;
+    public static List<Character> preorderTraversal(MyNode root) {
+        List<Character> list = new ArrayList<>();
+        Stack<MyNode> stack = new Stack<>();
+        MyNode cur = root;
+        while (!stack.isEmpty() || cur != null) {
+            while (cur != null) {
+                stack.add(cur);
+                list.add(cur.val);
+                cur = cur.left;
+            }
+            MyNode top = stack.pop();
+            cur = top.right;
+        }
+        return list;
+    }
+    public static List<Character> inorderTraversal(MyNode root){
+        List<Character> list = new ArrayList<>();
+        Stack<MyNode> stack = new Stack<>();
+        MyNode cur = root;
+        while(cur!=null||!stack.isEmpty()){
+            while(cur!=null){
+                stack.add(cur);
+                cur = cur.left;
+            }
+            MyNode top = stack.pop();
+            list.add(top.val);
+            cur = top.right;
+        }
+        return list;
+    }
+    public static List<Character> postorderTravel(MyNode root) {
+        List<Character> list = new ArrayList<>();
+        Stack<MyNode> stack = new Stack<>();
+        MyNode cur = root;
+        MyNode last = null;
+        while (cur != null || !stack.isEmpty()) {
+            while (cur != null) {
+                stack.push(cur);
+                cur = cur.left;
+            }
+            MyNode top = stack.peek();
+            if(top.right == null || top.right == last){
+                list.add(stack.pop().val);
+                last = top;
+            }else{
+                cur = top.right;
+            }
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        MyNode root = buildTree();
+        System.out.println(MyNode.preorderTraversal(root));
+        System.out.println(MyNode.inorderTraversal(root));
+        System.out.println(MyNode.postorderTravel(root));
+    }
+}
