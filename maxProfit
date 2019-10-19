@@ -1,0 +1,68 @@
+public class Profit {
+
+    /**
+     * 给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格
+     * 设计一个算法来计算你所能获取的最大利润。你最多可以完成两笔交易
+     * @param prices
+     * @return
+     */
+    public static int maxProfitTwoTimes(int[] prices) {
+        int dp_i10 = 0,dp_i11=Integer.MIN_VALUE;
+        int dp_i20 = 0,dp_i21 = Integer.MIN_VALUE;
+        for(int price:prices){
+            dp_i20 = Math.max(dp_i20,dp_i21+price);
+            dp_i21 = Math.max(dp_i21,dp_i10-price);
+            dp_i10 = Math.max(dp_i10,dp_i11+price);
+            dp_i11 = Math.max(dp_i11,-price);
+        }
+        return dp_i20;
+    }
+    /**
+     * 定一个整数数组 prices，其中第 i 个元素代表了第 i 天的股票价格 ；
+     *  你可以无限次地完成交易，但是你每次交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。返回获得利润的最大值
+     * @param prices
+     * @return
+     */
+    public static int maxProfit(int[] prices) {
+        int n = prices.length;
+        int dp_i_0 = 0;
+        int dp_i_1 = Integer.MIN_VALUE;
+        for(int i = 0;i<n;i++){
+            dp_i_0 = Math.max(dp_i_0,dp_i_1+prices[i]);
+            dp_i_1 = Math.max(dp_i_1,dp_i_0-prices[i]);
+        }
+        return dp_i_0;
+    }
+
+
+    /**
+     *给定一个整数数组 prices，其中第 i 个元素代表了第 i 天的股票价格 ；非负整数 fee 代表了交易股票的手续费用。
+     * 你可以无限次地完成交易，但是你每次交易都需要付手续费。如果你已经购买了一个股票，在卖出它之前你就不能再继续购买股票了。返回获得利润的最大值
+     * @param prices
+     * @param fee
+     * @return
+     */
+    public static int maxProfit(int[] prices, int fee) {
+        int n =prices.length;
+        //没有股票
+        int proft_i_0 = 0;
+        //有股票
+        int proft_i_1 = Integer.MIN_VALUE;
+        for(int i = 0 ;i<n;i++ ){
+            //中间变量为前一天没有股票时候的利润
+            int temp= proft_i_0;
+            //当前没有股票有两种可能：昨天就没有股票，昨天有股票但是今天卖了，所以加上今天销售股票的钱
+            proft_i_0= Math.max(proft_i_0,proft_i_1+prices[i]);
+            //当前有股票有两种可能：昨天就有股票，昨天没有股票今天刚刚购买的，所以减去今天花费的股票钱，减去手续费
+            proft_i_1 = Math.max(proft_i_1,temp-fee-prices[i]);
+        }
+        return proft_i_0;
+    }
+
+    public static void main(String[] args) {
+        int []prices = {1,3,2,8,4,9};
+        System.out.println(Profit.maxProfit(prices,2));
+        System.out.println(Profit.maxProfit(prices));
+        System.out.println(Profit.maxProfitTwoTimes(prices));
+    }
+}
