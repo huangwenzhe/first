@@ -1,0 +1,115 @@
+import java.util.Arrays;
+import java.util.Stack;
+
+public class Solution {
+    /**
+     * 给定一个排序数组，原地删除出现重复的元素，使得每个元素只出现一次，返回移除后数组的新长度
+     * @param nums
+     * @return
+     */
+    public static int removeDuplicates(int[] nums) {
+      if(nums==null||nums.length==1){
+          return nums.length;
+      }
+      int i =0;
+      int j =1;
+      while(j<nums.length) {
+          if (nums[i] == nums[j]) {
+              j++;
+          } else {
+              i++;
+              nums[i] = nums[j];
+              j++;
+          }
+      }
+            return i+1;
+    }
+    /**
+     * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。设计一个算法来计算获取的最大利润
+     * 简单的贪心算法
+     * @param prices
+     * @return
+     */
+    public static int maxProfitplus(int[] prices) {
+        int maxprofit = 0;
+        for(int i = 1;i<prices.length;i++){
+            if(prices[i]>prices[i-1]){
+                maxprofit += prices[i]-prices[i-1];
+            }
+        }
+        return maxprofit;
+    }
+        public static int maxProfit(int[] prices) {
+        int i = 0;
+        int valley = prices[0];
+        int peak = prices[0];
+        int maxprofit = 0;
+        while(i<prices.length-1){
+            while(i<prices.length-1&&prices[i]>prices[i+1]){
+                i++;
+            }
+            valley = prices[i];
+            while(i<prices.length-1&&prices[i]<prices[i+1]){
+                i++;
+            }
+            peak= prices[i];
+            maxprofit += peak - valley;
+        }
+        return maxprofit;
+    }
+        /**
+         * 求出一个数组所对应的数字加1所得的值，返回一个数组形式，
+         * 考虑进位问题
+         * @param digits
+         * @return
+         */
+    public static int[]  plusOne(int[] digits) {
+        for (int i = digits.length - 1; i >= 0; i--) {
+            digits[i]++;
+            digits[i] = digits[i] % 10;
+            if (digits[i] != 0) {
+                return digits;
+            }
+        }
+        int[] digitss = new int[digits.length + 1];
+        digitss[0] = 1;
+        return digitss;
+    }
+    public static int[] plusOne1(int[] digits) {
+        int carry = 0;
+        int res[] = new int[digits.length+1];
+        int num = 0;
+        for(int i =digits.length-1 ; i>=0 ;i--){
+            if( i ==digits.length-1){
+                num = digits[i]+1;
+            }else{
+                num = digits[i]+carry;
+            }
+            carry = num/10;
+            res[i+1] = num%10;
+        }
+        if(carry==1){
+            res[0]=1;
+        }
+     if(res[0]!=0){
+            return res;
+     }else{
+            int [] newres = new int[digits.length];
+            for(int i = 1;i<res.length;i++) {
+                newres[i - 1] = res[i];
+            }
+            return newres;
+        }
+    }
+
+    public static void main(String[] args) {
+        int []arr = {0};
+        System.out.println(Arrays.toString(Solution.plusOne(arr)) );
+        int price[]={1, 3, 2, 8, 4, 9};
+        System.out.println(Solution.maxProfit(price));
+        System.out.println(Solution.maxProfitplus(price));
+        int []array = {1,1,1,1,2};
+        System.out.println(Solution.removeDuplicates(array));
+    }
+
+}
