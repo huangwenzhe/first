@@ -1,0 +1,73 @@
+import java.awt.List;
+import java.util.*;
+public class OJ {
+    /**
+     * 一个字符数组中返回出现字符相同的元素的集合
+     * @param strs
+     * @return
+     */
+    public static List<List<String>> groupAnagrams(String[] strs) {
+        if(strs.length == 0){
+            return new ArrayList<>();
+        }
+        Map<String,List> ans = new HashMap<>();
+        for(String s :strs){
+            char []ca = s.toCharArray();
+            Arrays.sort(ca);
+            String key = String.valueOf(ca);
+            if(!ans.containsKey(key))
+                ans.put(key,new ArrayList());
+            ans.get(key).add(s);
+        }
+        return new ArrayList(ans.values());
+    }
+    /**
+     * 输出一个字符串的最大不重复的子字符串
+     * @param s
+     * @return
+     */
+    public static int lengthOfLongestSubstring(String s) {
+        if(s==null){
+            return 0;
+        }
+       Set<Character>set = new HashSet<>();
+        int n = s.length();
+        int ans = 0;
+        int j =0,i = 0;
+        while(i<n&&j<n){
+            if(!set.contains(s.charAt(j))){
+                set.add(s.charAt(j++));
+                ans = Math.max(ans,j-i);
+            }else{
+                set.remove(s.charAt(i++));
+            }
+        }
+        return ans;
+    }
+
+    public static int calLengthofFib() {
+        int a = 0;
+        int b = 1;
+        Scanner sc = new Scanner(System.in);
+        int n = sc.nextInt();
+        while (b < n) {
+            int tem = a + b;
+            a = b;
+            b = tem;
+        }
+        return Math.min(n - a, b - n);
+    }
+
+    /**
+     * 输入一个数，返回其和斐波那契数最近的一个数的距离
+     *
+     * @param args
+     */
+    public static void main(String[] args) {
+     //   System.out.println(OJ.calLengthofFib());
+        String s= "pwwkew";
+        System.out.println(OJ.lengthOfLongestSubstring(s));
+        String[]arr = {"eat", "tea", "tan", "ate", "nat", "bat"};
+        System.out.println(OJ.groupAnagrams(arr));
+    }
+}
